@@ -42,8 +42,12 @@ Similair to the coding used in the Health and Retirement Study, a metric using a
 Participants provided a residential history that spans their whole life, including addresses. This data did not require web scraping, and was immediatly usable for geocoding.  Google maps' python api was used to geocode these addresses into longtitude and latitude. 
 ## Educational History Map Making and Analysis 
 Data: Data pivoted to row represenation of individual schools, and webscraped to include addresses when available. 
+
+filepath: variable called pathe is left blank, assign to path of 'MBES' folder where data for this project is stored. 
+
 Use: The Folium library of python was used to generate maps from the coordinates of each school address. This is used to create a network graph on an interactive map vizualizing the geographical movement of each participant during childhood. The path length of each participants network representation was calculated in terms of both integer number of moves and geodesic distance moved. 
 ### Geocoding and Preprocessing
+
 1. Data was cleaned to remove '\n' and to drop schools with blank addresses. After this, 
    Total number of schools: 421
    Total number of participants with atleast 1 address: 120
@@ -62,7 +66,6 @@ Total number of participants with atleast 1 address: 119
 ### Map Making and Analysis
 
 data: as processed above 
-filepath: variable called pathe is left blank, assign to path of 'MBES' folder where data for this project is stored. 
 
 Folium library of python is used to construct the following functions: 
 
