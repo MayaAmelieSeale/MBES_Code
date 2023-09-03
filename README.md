@@ -24,6 +24,7 @@ Columns: ['Study ID', 'Write the start grade of your FIRST school.',
 A total of 128 participants submitted school history data. 
 
 Functions using the above dataframe were constructed: 
+
 **addSchoolLvlCol(dataframe, number of schools)**: adds three columns after each school, with binary data corresponding to if the school was an elementary, middle school, or high school. 
 
 **schoollevel(df, numschools)**: classifies the above generated columns using the following definitions: 
