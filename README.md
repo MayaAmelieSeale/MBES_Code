@@ -64,7 +64,7 @@ Use: The Folium library of python was used to generate maps from the coordinates
 After Geocoding and Dropping Blanks...
 Total number of schools are: 420
 Total number of participants with atleast 1 address: 119
-4. Using US Census API to map coordinates to census tract
+4. Using US Census API to map coordinates to census tract.  We store this data in a different dataframe, **dftract** since not all geocodable addresses have a census tract.
 
 **tractinfo(df)**: Function used to extract 2020 census tract from Census API returned JSON file
 
@@ -94,9 +94,9 @@ This function takes two list type arguments (subset1 & subset2) of study IDs. Ti
 This document uses two examples, one comparing 'middle' vs 'low' income participant subsets, and another comparing 'yes' vs 'no' response subsets on a question from the Childhood SES questionaire also administered during the MBES study. This question asks if participants remember moving due to financial hardship before the age of 16. 
 
 #### Computing and analysing geodesic and binary path length
-In this section, a new dataframe is created that stores metrics about each participant. This dataframe is refered here as 'dis', and is intended to store key metrics for each participant for quick data analysis. 
+In this section, a new dataframe is created that stores metrics about each participant. This dataframe is refered here as **dis**, and is intended to store key metrics for each participant for quick data analysis. 
 
-**geographicdistance(df)((: this function does three things. First, it calculates the total distance traveled by each participant by adding up the geodesic distance between each succesive school attended. Second, it calculates the total number of moves. Third, it stores these values in a new dataframe and returns this dataframe.
+**geographicdistance(df)**: this function does three things. First, it calculates the total distance traveled by each participant by adding up the geodesic distance between each succesive school attended. Second, it calculates the total number of moves. Third, it stores these values in a new dataframe and returns this dataframe. This dataframe is called **dis** and is used an input in the following functions.
 
 **subsetdis( dis, filepath)**: This function takes the dis dataframe amd a filepath to a redcap report returning a target subset of study ID's. This function returns a subset of dis with only the values from the redcap report. 
 
@@ -139,15 +139,23 @@ Use: The Folium library of python was used to generate maps from the coordinates
 After Geocoding and Dropping Blanks...
 Total number of schools are: 420
 Total number of participants with atleast 1 address: 119
-4. Using US Census API to map coordinates to census tract 
+4. Using US Census API to map coordinates to census tract. We store this data in a different dataframe, **dftract** since not all geocodable addresses have a census tract.
 
 **tractinfo(df)**: Function used to extract 2020 census tract from Census API returned JSON file
 
    This only applies to US addresses. Since some participants listed schools in other countries, some coordinates cannot be mapped.
-   The number of addresses without Census Tracts are: 24
+   The number of addresses without Census Tracts are: 
    These addresses were dropped.
-5. Using Census tract to pull data on median income for each residence
-6. Made a function to calculate the change in income between each school and the previous school attended. This is 0 if it is a participants first or only school
+After dropping untracked rows...
+The number of addresses are: 
+The number of participants with atleast 1 address is: 
+5. Using Census tract to pull data on median income for each residence, with the Census API 
+5.1 Dropping addresses with a median income of 0 or less 
+After dropping negative or 0 median incomes ..
+The number of addresses are: 
+The number of participants with atleast 1 address is: 
+6. Calculating the change in income for each residence, relative to previous residence 
+**incomechange(df)** : Function to calculate change in income between each residence and the previous residence. This is 0 if it is the only or first resiedence
 
 ### Map Making and Analysis
 
@@ -157,7 +165,7 @@ Folium library of python is used to construct the following functions:
 
 **mapmapker(df)**: This function plots each geocoded address on a global, interactive map
 
-**graphmap(df)**: This function creates a network with each node representing a geocodable address, and each edge representing consecutive addresses for a participant. This network is on top of an interactive, global folium map.  This vizualizes the movement of participants during chilhood. 
+**graphmap(df)**: This function creates a network with each node representing a geocodable address, and each edge representing consecutive addresses for a participant. This network is on top of an interactive, global folium map.  This vizualizes the movement of participants during life.
 
 **searchgraphmap(df, subset)**: This function takes an argument subset of datatype list that contains a list of study IDs. This is used to generate a subset of df with only the ID's in the given subset. This subset is then graphed in the same way as graphmap. 
 
@@ -169,9 +177,9 @@ This function takes two list type arguments (subset1 & subset2) of study IDs. Ti
 This document uses two examples, one comparing 'middle' vs 'low' income participant subsets, and another comparing 'yes' vs 'no' response subsets on a question from the Childhood SES questionaire also administered during the MBES study. This question asks if participants remember moving due to financial hardship before the age of 16. 
 
 #### Computing and analysing geodesic and binary path length
-In this section, a new dataframe is created that stores metrics about each participant. This dataframe is refered here as 'dis', and is intended to store key metrics for each participant for quick data analysis. 
+In this section, a new dataframe is created that stores metrics about each participant. This dataframe is refered here as **dis**, and is intended to store key metrics for each participant for quick data analysis. 
 
-**geographicdistance(df)((: this function does three things. First, it calculates the total distance traveled by each participant by adding up the geodesic distance between each succesive school attended. Second, it calculates the total number of moves. Third, it stores these values in a new dataframe and returns this dataframe.
+**geographicdistance(df)**: this function does three things. First, it calculates the total distance traveled by each participant by adding up the geodesic distance between each succesive residence. Second, it calculates the total number of moves. Third, it stores these values in a new dataframe and returns this dataframe. This dataframe is called **dis** and is used an input in the following functions.
 
 **subsetdis( dis, filepath)**: This function takes the dis dataframe amd a filepath to a redcap report returning a target subset of study ID's. This function returns a subset of dis with only the values from the redcap report. 
 
