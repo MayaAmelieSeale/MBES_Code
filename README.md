@@ -144,16 +144,10 @@ Total number of participants with atleast 1 address: 119
 **tractinfo(df)**: Function used to extract 2020 census tract from Census API returned JSON file
 
    This only applies to US addresses. Since some participants listed schools in other countries, some coordinates cannot be mapped.
-   The number of addresses without Census Tracts are: 
    These addresses were dropped.
-After dropping untracked rows...
-The number of addresses are: 
-The number of participants with atleast 1 address is: 
 5. Using Census tract to pull data on median income for each residence, with the Census API 
 5.1 Dropping addresses with a median income of 0 or less 
-After dropping negative or 0 median incomes ..
-The number of addresses are: 
-The number of participants with atleast 1 address is: 
+
 6. Calculating the change in income for each residence, relative to previous residence 
 **incomechange(df)** : Function to calculate change in income between each residence and the previous residence. This is 0 if it is the only or first resiedence
 
