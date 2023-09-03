@@ -1,8 +1,12 @@
 # MBES_Code
 ### MBES
 The Midlife Brain and Environment Study (MBES) is a longitudinal study (n = 151)  of people between the ages of 40 and 64 consisting of three timepoints, spaced two years apart. Each time point consists of two appointments, spaced 30 days apart. Data collected at each time point includes fMRI scans, both resting state and task based, blood testing, hair sampling, extensive cognitive testing, 30 days of actigraph accelerometry, and daily electronic momentary assesments. The goal of this study is to understand the relationship between enviornmental and socioeconimic factors and changes in network charactertersitics as the brain ages. The data processing in this repository was conducted after timepoint 1. This repository was created so that following timepoint 2, these methods can be used with updated, more detailed life history data. This study is conducted by the Wig Neuroimaging Lab https://www.wigneurolab.org/ at the Center for Vital Longevity, associated with the University of Texas at Dallas. 
-### Life History Survey 
+# Life History Survey 
 One of the measures completed by participants is the Life History Survey, derived from the Health and Retirement Study. https://hrs.isr.umich.edu/data-products/life-history
+In this survey, participants report detailed residential and educational information. This is the data processed in this document. 
+
+# Education Data
+
 ## Educational History Processing
 Participants provide a detailed pre-college educational history, with some providing up to 10. 
 ### Original Data, as exported from Redcap: 
@@ -20,26 +24,26 @@ Columns: ['Study ID', 'Write the start grade of your FIRST school.',
 A total of 128 participants submitted school history data. 
 
 Functions using the above dataframe were constructed: 
-addSchoolLvlCol(dataframe, number of schools): adds three columns after each school, with binary data corresponding to if the school was an elementary, middle school, or high school. 
+**addSchoolLvlCol(dataframe, number of schools)**: adds three columns after each school, with binary data corresponding to if the school was an elementary, middle school, or high school. 
 
-schoollevel(df, numschools): classifies the above generated columns using the following definitions: 
+**schoollevel(df, numschools)**: classifies the above generated columns using the following definitions: 
  Elem = [0,1,2,3,4,5]
   Mid = [6,7,8]
   High = [9,10,11,12]
-
-nonminoritymajority(df):
+Due to the nonuniform school classification, some schools are classified as two or more categories 
+**nonminoritymajority(df)**:
 Similair to the coding used in the Health and Retirement Study, a metric using answers to 'Most children in the school were...?' was constructed to aggregate the time during childhood a participant spent at a school that was not a minority-majority school. A minority-majority school is associated with increased racial segregation and is a measure of the systemic inequity that is associated with it. 
 
 ### School Name Data generated, for use in data entry and School_History_Analysis_and_Map_Making.ipynb: 
 
-1. Original data was pivoted so that each row corresponded to a unique school.
+1. Original data was pivoted so that each row corresponded to a unique school. This was done using MakeSchoolInfoDataEntry() function. 
    501 unique schools were found.
 2. Using school names to manually webscrap addresses
  New dataframe was imported into excel, and names of schools manually webscraped using google, facebook, news articles, and other databases. Data recorded primarily included the street address of the school.  National Center for Education Statistics number was recorded for schools that had one. 
 
+MakeSchoolInfoDataEntry(df): Function that takes the original, redcap exported dataframe as an argument. This data is pivoted so that each row represents an individual school, rather than individual participant. Returns pivoted dataframe 
 
-## Residential History Processing
-Participants provided a residential history that spans their whole life, including addresses. This data did not require web scraping, and was immediatly usable for geocoding.  Google maps' python api was used to geocode these addresses into longtitude and latitude. 
+
 ## Educational History Map Making and Analysis 
 Data: Data pivoted to row represenation of individual schools, and webscraped to include addresses when available. 
 
@@ -102,6 +106,10 @@ Seaborn libary of python is used to make a scatterplot of Economic Mobility vs G
 
 **incomemap(df)**: This function creates a network graph similair to the above graphmap, except the color of each line is a vizualization of economic changes between the originating address and the next address. The more green a line, the higher the increase in median income associated with the move. The more red a line, the higher the decrease in median income associated with the move. 
 
+# Residential Data
 
+## Residential History Processing
+Participants provided a residential history that spans their whole life, including addresses. This data did not require web scraping, and was immediatly usable for geocoding.  Google maps' python api was used to geocode these addresses into longtitude and latitude. 
 
+**MakeResInfoDataEntry(df)**: Function similair to MakeSchoolInfoDataEntry() that pivots the redcap exported dataframe to one where each row represents an individual residence instead of an individual participant. Returns pivoted dataframe. 
 ## Overview of Tools Built for Data Analysis and Vizualization 
