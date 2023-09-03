@@ -42,7 +42,7 @@ Similair to the coding used in the Health and Retirement Study, a metric using a
 2. Using school names to manually webscrap addresses
  New dataframe was imported into excel, and names of schools manually webscraped using google, facebook, news articles, and other databases. Data recorded primarily included the street address of the school.  National Center for Education Statistics number was recorded for schools that had one. 
 
-MakeSchoolInfoDataEntry(df): Function that takes the original, redcap exported dataframe as an argument. This data is pivoted so that each row represents an individual school, rather than individual participant. Returns pivoted dataframe 
+**MakeSchoolInfoDataEntry(df)**: Function that takes the original, redcap exported dataframe as an argument. This data is pivoted so that each row represents an individual school, rather than individual participant. Returns pivoted dataframe 
 
 
 ## Educational History Map Making and Analysis 
@@ -58,15 +58,21 @@ Use: The Folium library of python was used to generate maps from the coordinates
    Total number of participants with atleast 1 address: 120
 2. Geocoding addresses into (lat, long) coordinates: 
  Google Maps' python API was used to geocode addresses returned from manual webscraping into longitude and latitude.
+
+**latlong(df)**: Function that extracts latitude and longitude from googlemaps API returned JSON file
+
 After Geocoding and Dropping Blanks...
 Total number of schools are: 420
 Total number of participants with atleast 1 address: 119
-3. Using US Census API to map coordinates to census tract 
+4. Using US Census API to map coordinates to census tract
+
+**tractinfo(df)**: Function used to extract 2020 census tract from Census API returned JSON file
+
    This only applies to US addresses. Since some participants listed schools in other countries, some coordinates cannot be mapped.
    The number of addresses without Census Tracts are: 24
    These addresses were dropped.
-4. Using Census tract to pull data on median income for each school
-5. Made a function to calculate the change in income between each school and the previous school attended. This is 0 if it is a participants first or only school
+5. Using Census tract to pull data on median income for each school
+6. Made a function to calculate the change in income between each school and the previous school attended. This is 0 if it is a participants first or only school
 
 ### Map Making and Analysis
 
@@ -113,4 +119,72 @@ Seaborn libary of python is used to make a scatterplot of Economic Mobility vs G
 Participants provided a residential history that spans their whole life, including addresses. This data did not require web scraping, and was immediatly usable for geocoding.  Google maps' python api was used to geocode these addresses into longtitude and latitude. 
 
 **MakeResInfoDataEntry(df)**: Function similair to MakeSchoolInfoDataEntry() that pivots the redcap exported dataframe to one where each row represents an individual residence instead of an individual participant. Returns pivoted dataframe. 
-## Overview of Tools Built for Data Analysis and Vizualization 
+
+## Residential History Map Making and Analysis 
+Data: Data pivoted to row represenation of individual residences, and webscraped to include addresses when available. 
+
+filepath: variable called pathe is left blank, assign to path of 'MBES' folder where data for this project is stored. 
+
+Use: The Folium library of python was used to generate maps from the coordinates of each residential address. This is used to create a network graph on an interactive map vizualizing the geographical movement of each participant during their life. The path length of each participants network representation was calculated in terms of both integer number of moves and geodesic distance moved. 
+### Geocoding and Preprocessing 
+
+1. Data was cleaned to remove '\n' and to drop residences with no address or zipcode. After this, 
+   Total number of residences: 546
+   Total number of participants with atleast 1 residence: 121
+2. Geocoding addresses into (lat, long) coordinates: 
+ Google Maps' python API was used to geocode addresses into longitude and latitude.
+
+**latlong(df)**: Function that extracts latitude and longitude from googlemaps API returned JSON file
+
+After Geocoding and Dropping Blanks...
+Total number of schools are: 420
+Total number of participants with atleast 1 address: 119
+4. Using US Census API to map coordinates to census tract 
+
+**tractinfo(df)**: Function used to extract 2020 census tract from Census API returned JSON file
+
+   This only applies to US addresses. Since some participants listed schools in other countries, some coordinates cannot be mapped.
+   The number of addresses without Census Tracts are: 24
+   These addresses were dropped.
+5. Using Census tract to pull data on median income for each residence
+6. Made a function to calculate the change in income between each school and the previous school attended. This is 0 if it is a participants first or only school
+
+### Map Making and Analysis
+
+data: as processed above 
+
+Folium library of python is used to construct the following functions: 
+
+**mapmapker(df)**: This function plots each geocoded address on a global, interactive map
+
+**graphmap(df)**: This function creates a network with each node representing a geocodable address, and each edge representing consecutive addresses for a participant. This network is on top of an interactive, global folium map.  This vizualizes the movement of participants during chilhood. 
+
+**searchgraphmap(df, subset)**: This function takes an argument subset of datatype list that contains a list of study IDs. This is used to generate a subset of df with only the ID's in the given subset. This subset is then graphed in the same way as graphmap. 
+
+**geocodedratio(df, subset)**: gives the ratio of the number of IDs with geocodable addresses to the number of IDs in a subset. For example, the subset of IDs in the middle income group may not all be geocodable. This ratio may differ based on subsets, and could confound analysis done in the next steps.
+
+**compareGroups(df, subset1, subset2, title1, title2)**: 
+This function takes two list type arguments (subset1 & subset2) of study IDs. Titles are string arguments used to make titles for the graph map. This function then makes a network graph of df, with each subgraph colorcoded based on its participation in either subset1 or subset2. *warning* subsets MUST be disjoint. 
+
+This document uses two examples, one comparing 'middle' vs 'low' income participant subsets, and another comparing 'yes' vs 'no' response subsets on a question from the Childhood SES questionaire also administered during the MBES study. This question asks if participants remember moving due to financial hardship before the age of 16. 
+
+#### Computing and analysing geodesic and binary path length
+In this section, a new dataframe is created that stores metrics about each participant. This dataframe is refered here as 'dis', and is intended to store key metrics for each participant for quick data analysis. 
+
+**geographicdistance(df)((: this function does three things. First, it calculates the total distance traveled by each participant by adding up the geodesic distance between each succesive school attended. Second, it calculates the total number of moves. Third, it stores these values in a new dataframe and returns this dataframe.
+
+**subsetdis( dis, filepath)**: This function takes the dis dataframe amd a filepath to a redcap report returning a target subset of study ID's. This function returns a subset of dis with only the values from the redcap report. 
+
+**compareGroups(dis, nameofCol, file1, value1, file2, value2)**: This function uses the above function to reduce the code needed to add a binary column to 'dis' classifying each ID based on a redcap report generated subset to juse one line. File1 and file2 are filepaths to a redcap report corresponding to two disjoint subsets. nameofCol is the name of the column storing this binary variable. value1 is the value to assign to nameofCol for IDs belonging to the 1st subset, and value2 is the value to assign to nameofCol for IDs belonging to the 2nd subset
+
+#### Comparing Economic Mobility with Geographic Mobility
+Next, I calculated economic changes for each participant. I put the result into the same dataframe dis. 
+
+**econchange(df, dis)**: calculates the change in median income between the last and the first reported school, stores it as a new column in dis, and returns dis. 
+
+Seaborn libary of python is used to make a scatterplot of Economic Mobility vs Geographic Mobility
+
+#### Maps Integrated with Census Data
+
+**incomemap(df)**: This function creates a network graph similair to the above graphmap, except the color of each line is a vizualization of economic changes between the originating address and the next address. The more green a line, the higher the increase in median income associated with the move. The more red a line, the higher the decrease in median income associated with the move. 
+
