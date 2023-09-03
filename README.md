@@ -69,15 +69,15 @@ data: as processed above
 
 Folium library of python is used to construct the following functions: 
 
-mapmapker(df): This function plots each geocoded address on a global, interactive map
+**mapmapker(df)**: This function plots each geocoded address on a global, interactive map
 
-graphmap(df): This function creates a network with each node representing a geocodable address, and each edge representing consecutive addresses for a participant. This network is on top of an interactive, global folium map.  This vizualizes the movement of participants during chilhood. 
+**graphmap(df)**: This function creates a network with each node representing a geocodable address, and each edge representing consecutive addresses for a participant. This network is on top of an interactive, global folium map.  This vizualizes the movement of participants during chilhood. 
 
-searchgraphmap(df, subset): This function takes an argument subset of datatype list that contains a list of study IDs. This is used to generate a subset of df with only the ID's in the given subset. This subset is then graphed in the same way as graphmap. 
+**searchgraphmap(df, subset)**: This function takes an argument subset of datatype list that contains a list of study IDs. This is used to generate a subset of df with only the ID's in the given subset. This subset is then graphed in the same way as graphmap. 
 
-geocodedratio(df, subset): gives the ratio of the number of IDs with geocodable addresses to the number of IDs in a subset. For example, the subset of IDs in the middle income group may not all be geocodable. This ratio may differ based on subsets, and could confound analysis done in the next steps.
+**geocodedratio(df, subset)**: gives the ratio of the number of IDs with geocodable addresses to the number of IDs in a subset. For example, the subset of IDs in the middle income group may not all be geocodable. This ratio may differ based on subsets, and could confound analysis done in the next steps.
 
-compareGroups(df, subset1, subset2, title1, title2): 
+**compareGroups(df, subset1, subset2, title1, title2)**: 
 This function takes two list type arguments (subset1 & subset2) of study IDs. Titles are string arguments used to make titles for the graph map. This function then makes a network graph of df, with each subgraph colorcoded based on its participation in either subset1 or subset2. *warning* subsets MUST be disjoint. 
 
 This document uses two examples, one comparing 'middle' vs 'low' income participant subsets, and another comparing 'yes' vs 'no' response subsets on a question from the Childhood SES questionaire also administered during the MBES study. This question asks if participants remember moving due to financial hardship before the age of 16. 
@@ -85,22 +85,22 @@ This document uses two examples, one comparing 'middle' vs 'low' income particip
 #### Computing and analysing geodesic and binary path length
 In this section, a new dataframe is created that stores metrics about each participant. This dataframe is refered here as 'dis', and is intended to store key metrics for each participant for quick data analysis. 
 
-geographicdistance(df): this function does three things. First, it calculates the total distance traveled by each participant by adding up the geodesic distance between each succesive school attended. Second, it calculates the total number of moves. Third, it stores these values in a new dataframe and returns this dataframe.
+**geographicdistance(df)((: this function does three things. First, it calculates the total distance traveled by each participant by adding up the geodesic distance between each succesive school attended. Second, it calculates the total number of moves. Third, it stores these values in a new dataframe and returns this dataframe.
 
-subsetdis( dis, filepath): This function takes the dis dataframe amd a filepath to a redcap report returning a target subset of study ID's. This function returns a subset of dis with only the values from the redcap report. 
+**subsetdis( dis, filepath)**: This function takes the dis dataframe amd a filepath to a redcap report returning a target subset of study ID's. This function returns a subset of dis with only the values from the redcap report. 
 
-compareGroups(dis, nameofCol, file1, value1, file2, value2): This function uses the above function to reduce the code needed to add a binary column to 'dis' classifying each ID based on a redcap report generated subset to juse one line. File1 and file2 are filepaths to a redcap report corresponding to two disjoint subsets. nameofCol is the name of the column storing this binary variable. value1 is the value to assign to nameofCol for IDs belonging to the 1st subset, and value2 is the value to assign to nameofCol for IDs belonging to the 2nd subset
+**compareGroups(dis, nameofCol, file1, value1, file2, value2)**: This function uses the above function to reduce the code needed to add a binary column to 'dis' classifying each ID based on a redcap report generated subset to juse one line. File1 and file2 are filepaths to a redcap report corresponding to two disjoint subsets. nameofCol is the name of the column storing this binary variable. value1 is the value to assign to nameofCol for IDs belonging to the 1st subset, and value2 is the value to assign to nameofCol for IDs belonging to the 2nd subset
 
 #### Comparing Economic Mobility with Geographic Mobility
 Next, I calculated economic changes for each participant. I put the result into the same dataframe dis. 
 
-econchange(df, dis): calculates the change in median income between the last and the first reported school, stores it as a new column in dis, and returns dis. 
+**econchange(df, dis)**: calculates the change in median income between the last and the first reported school, stores it as a new column in dis, and returns dis. 
 
 Seaborn libary of python is used to make a scatterplot of Economic Mobility vs Geographic Mobility
 
 #### Maps Integrated with Census Data
 
-incomemap(df): This function creates a network graph similair to the above graphmap, except the color of each line is a vizualization of economic changes between the originating address and the next address. The more green a line, the higher the increase in median income associated with the move. The more red a line, the higher the decrease in median income associated with the move. 
+**incomemap(df)**: This function creates a network graph similair to the above graphmap, except the color of each line is a vizualization of economic changes between the originating address and the next address. The more green a line, the higher the increase in median income associated with the move. The more red a line, the higher the decrease in median income associated with the move. 
 
 
 
