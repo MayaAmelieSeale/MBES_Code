@@ -53,10 +53,11 @@ filepath: variable called pathe is left blank, assign to path of 'MBES' folder w
 Use: The Folium library of python was used to generate maps from the coordinates of each school address. This is used to create a network graph on an interactive map vizualizing the geographical movement of each participant during childhood. The path length of each participants network representation was calculated in terms of both integer number of moves and geodesic distance moved. 
 ### Geocoding and Preprocessing
 
-1. Data was cleaned to remove '\n' and to drop schools with blank addresses. After this, 
+**1.** Data was cleaned to remove '\n' and to drop schools with blank addresses. After this, 
    Total number of schools: 421
    Total number of participants with atleast 1 address: 120
-2. Geocoding addresses into (lat, long) coordinates: 
+
+**2.** Geocoding addresses into (lat, long) coordinates: 
  Google Maps' python API was used to geocode addresses returned from manual webscraping into longitude and latitude.
 
 **latlong(df)**: Function that extracts latitude and longitude from googlemaps API returned JSON file
@@ -64,15 +65,18 @@ Use: The Folium library of python was used to generate maps from the coordinates
 After Geocoding and Dropping Blanks...
 Total number of schools are: 420
 Total number of participants with atleast 1 address: 119
-4. Using US Census API to map coordinates to census tract.  We store this data in a different dataframe, **dftract** since not all geocodable addresses have a census tract.
+
+**3.** Using US Census API to map coordinates to census tract.  We store this data in a different dataframe, **dftract** since not all geocodable addresses have a census tract.
 
 **tractinfo(df)**: Function used to extract 2020 census tract from Census API returned JSON file
 
    This only applies to US addresses. Since some participants listed schools in other countries, some coordinates cannot be mapped.
    The number of addresses without Census Tracts are: 24
    These addresses were dropped.
-5. Using Census tract to pull data on median income for each school
-6. Made a function to calculate the change in income between each school and the previous school attended. This is 0 if it is a participants first or only school
+   
+**4.** Using Census tract to pull data on median income for each school
+   
+**5.** Made a function to calculate the change in income between each school and the previous school attended. This is 0 if it is a participants first or only school
 
 ### Map Making and Analysis
 
@@ -128,10 +132,11 @@ filepath: variable called pathe is left blank, assign to path of 'MBES' folder w
 Use: The Folium library of python was used to generate maps from the coordinates of each residential address. This is used to create a network graph on an interactive map vizualizing the geographical movement of each participant during their life. The path length of each participants network representation was calculated in terms of both integer number of moves and geodesic distance moved. 
 ### Geocoding and Preprocessing 
 
-1. Data was cleaned to remove '\n' and to drop residences with no address or zipcode. After this, 
+**1.** Data was cleaned to remove '\n' and to drop residences with no address or zipcode. After this, 
    Total number of residences: 546
    Total number of participants with atleast 1 residence: 121
-2. Geocoding addresses into (lat, long) coordinates: 
+   
+**2.** Geocoding addresses into (lat, long) coordinates: 
  Google Maps' python API was used to geocode addresses into longitude and latitude.
 
 **latlong(df)**: Function that extracts latitude and longitude from googlemaps API returned JSON file
@@ -139,16 +144,19 @@ Use: The Folium library of python was used to generate maps from the coordinates
 After Geocoding and Dropping Blanks...
 Total number of schools are: 420
 Total number of participants with atleast 1 address: 119
-4. Using US Census API to map coordinates to census tract. We store this data in a different dataframe, **dftract** since not all geocodable addresses have a census tract.
+
+**3.** Using US Census API to map coordinates to census tract. We store this data in a different dataframe, **dftract** since not all geocodable addresses have a census tract.
 
 **tractinfo(df)**: Function used to extract 2020 census tract from Census API returned JSON file
 
    This only applies to US addresses. Since some participants listed schools in other countries, some coordinates cannot be mapped.
    These addresses were dropped.
-5. Using Census tract to pull data on median income for each residence, with the Census API 
-5.1 Dropping addresses with a median income of 0 or less 
+   
+**4.** Using Census tract to pull data on median income for each residence, with the Census API 
 
-6. Calculating the change in income for each residence, relative to previous residence 
+4a Dropping addresses with a median income of 0 or less 
+
+**5.** Calculating the change in income for each residence, relative to previous residence 
 **incomechange(df)** : Function to calculate change in income between each residence and the previous residence. This is 0 if it is the only or first resiedence
 
 ### Map Making and Analysis
