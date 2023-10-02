@@ -1,5 +1,5 @@
 # MBES_Code
-### MBES
+### About the Midlife Brain and Environment Study (MBES)
 The Midlife Brain and Environment Study (MBES) is a longitudinal study (n = 151)  of people between the ages of 40 and 64 consisting of three timepoints, spaced two years apart. Each time point consists of two appointments, spaced 30 days apart. Data collected at each time point includes fMRI scans, both resting state and task based, blood testing, hair sampling, extensive cognitive testing, 30 days of actigraph accelerometry, and daily electronic momentary assesments. The goal of this study is to understand the relationship between enviornmental and socioeconimic factors and changes in network charactertersitics as the brain ages. The data processing in this repository was conducted after timepoint 1. This repository was created so that following timepoint 2, these methods can be used with updated, more detailed life history data. This study is conducted by the Wig Neuroimaging Lab https://www.wigneurolab.org/ at the Center for Vital Longevity, associated with the University of Texas at Dallas. 
 # Life History Survey 
 One of the measures completed by participants is the Life History Survey, derived from the Health and Retirement Study. https://hrs.isr.umich.edu/data-products/life-history
