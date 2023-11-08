@@ -32,6 +32,7 @@ Functions using the above dataframe were constructed:
   Mid = [6,7,8]
   High = [9,10,11,12]
 Due to the nonuniform school classification, some schools are classified as two or more categories 
+
 **nonminoritymajority(df)**:
 Similair to the coding used in the Health and Retirement Study, a metric using answers to 'Most children in the school were...?' was constructed to aggregate the time during childhood a participant spent at a school that was not a minority-majority school. A minority-majority school is associated with increased racial segregation and is a measure of the systemic inequity that is associated with it. 
 
